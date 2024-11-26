@@ -1,0 +1,21 @@
+import { z } from "zod";
+import { objectWithCamelKeys } from "./common";
+
+export const Gallery = objectWithCamelKeys({
+  // The gallery's description.
+  description: z.string(),
+  // The gallery's ID.
+  id: z.number().int(),
+  // The gallery's spoiler warning.
+  spoilerWarning: z.string(),
+  // The ID of the cover image for the gallery.
+  thumbnailId: z.number().int(),
+  // The gallery's title.
+  title: z.string(),
+  // The name of the gallery's creator.
+  user: z.string(),
+  // The ID of the gallery's creator.
+  userId: z.number().int(),
+});
+
+export type Gallery = z.infer<typeof Gallery>;
