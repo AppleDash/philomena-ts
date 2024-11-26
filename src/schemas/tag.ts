@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { objectWithCamelKeys } from "./common";
 
 const TagCategory = z.enum([
   "character",
@@ -13,7 +12,7 @@ const TagCategory = z.enum([
   "spoiler",
 ]);
 
-export const Tag = objectWithCamelKeys({
+export const Tag = z.object({
   // The slug of the tag this tag is aliased to, if any.
   aliasedTag: z.nullable(z.string()),
   // The slugs of the tags aliased to this tag.

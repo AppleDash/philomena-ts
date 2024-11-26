@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { objectWithCamelKeys } from "./common";
 
-export const Comment = objectWithCamelKeys({
+export const Comment = z.object({
   // The comment's author.
   author: z.string(),
   // The URL of the author's avatar. May be a link to the CDN path, or a data: URI.

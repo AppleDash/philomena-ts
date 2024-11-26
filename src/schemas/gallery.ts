@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { objectWithCamelKeys } from "./common";
 
-export const Gallery = objectWithCamelKeys({
+export const Gallery = z.object({
   // The gallery's description.
   description: z.string(),
   // The gallery's ID.

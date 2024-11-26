@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { objectWithCamelKeys } from "./common";
 
-export const Forum = objectWithCamelKeys({
+export const Forum = z.object({
   // The forum's name.
   name: z.string(),
   // The forum's short name (used to identify it.)
@@ -16,7 +15,7 @@ export const Forum = objectWithCamelKeys({
 
 export type Forum = z.infer<typeof Forum>;
 
-export const Topic = objectWithCamelKeys({
+export const Topic = z.object({
   // The topic's slug (used to identify it.)
   slug: z.string(),
   // The topic's title.
@@ -39,7 +38,7 @@ export const Topic = objectWithCamelKeys({
 
 export type Topic = z.infer<typeof Topic>;
 
-export const Post = objectWithCamelKeys({
+export const Post = z.object({
   // The post's author.
   author: z.string(),
   // The URL of the author's avatar. May be a link to the CDN path, or a data: URI.

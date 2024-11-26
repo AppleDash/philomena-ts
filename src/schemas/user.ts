@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { objectWithCamelKeys } from "./common";
 
-export const UserLink = objectWithCamelKeys({
+export const UserLink = z.object({
   // The ID of the user who owns this link.
   userId: z.number().int(),
   // The creation time, in UTC, of this link.
@@ -14,7 +13,7 @@ export const UserLink = objectWithCamelKeys({
 
 export type UserLink = z.infer<typeof UserLink>;
 
-export const Award = objectWithCamelKeys({
+export const Award = z.object({
   // The URL of this award.
   imageUrl: z.string().url(),
   // The title of this award.
@@ -29,7 +28,7 @@ export const Award = objectWithCamelKeys({
 
 export type Award = z.infer<typeof Award>;
 
-export const User = objectWithCamelKeys({
+export const User = z.object({
   // The ID of the user.
   id: z.number().int(),
   // The name of the user.

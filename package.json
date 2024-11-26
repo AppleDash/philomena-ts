@@ -2,7 +2,7 @@
   "name": "philomena-ts",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/main.ts",
   "scripts": {
     "prettier": "prettier src/ --write"
   },
@@ -10,11 +10,14 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/lodash": "^4.17.13",
     "prettier": "3.4.1",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "radash": "^12.1.0",
+    "deep-map-keys": "^2.0.1",
+    "lodash": "^4.17.21",
     "zod": "^3.23.8"
   }
 }

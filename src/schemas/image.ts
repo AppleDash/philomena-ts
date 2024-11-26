@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { objectWithCamelKeys } from "./common";
 
 const ImageMimeType = z.enum([
   "image/gif",
@@ -18,7 +17,7 @@ const ImageIntensities = z.object({
   se: z.number(),
 });
 
-const ImageRepresentations = objectWithCamelKeys({
+const ImageRepresentations = z.object({
   full: z.string(),
   large: z.string(),
   medium: z.string(),
@@ -29,7 +28,7 @@ const ImageRepresentations = objectWithCamelKeys({
   thumbTiny: z.string(),
 });
 
-export const Image = objectWithCamelKeys({
+export const Image = z.object({
   // Whether the image is animated or not.
   animated: z.boolean(),
   // The image's width divided by its height.
@@ -93,7 +92,7 @@ export const Image = objectWithCamelKeys({
   // The time, in UTC, the image was last updated.
   updatedAt: z.string().datetime(),
   // The image's uploader.
-  uploader: z.string(),
+  uploader: z.nullable(z.string()),
   // The ID of the image's uploader. null if uploaded anonymously.
   uploaderId: z.nullable(z.number().int()),
   // The image's number of upvotes.
@@ -108,7 +107,7 @@ export const Image = objectWithCamelKeys({
 
 export type Image = z.infer<typeof Image>;
 
-export const Comment = objectWithCamelKeys({
+export const Comment = z.object({
   // The comment's author.
   author: z.string(),
   // The URL of the author's avatar. May be a link to the CDN path, or a data: URI.

@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { objectWithCamelKeys } from "./common";
 
-export const Filter = objectWithCamelKeys({
+export const Filter = z.object({
   // The ID of the filter.
   id: z.number().int(),
   // The name of the filter.
