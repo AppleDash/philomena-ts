@@ -13,15 +13,35 @@ const SingleImage = z.object({
   image: Image,
 });
 
+/**
+ * The valid sort fields that can be used to sort an image.
+ */
+export const ImageSortField = z.enum([
+  'firstSeenAt',
+  'id',
+  'updatedAt',
+  'aspectRatio',
+  'faves',
+  'upvotes',
+  'downvotes',
+  'score',
+  'wilsonScore',
+  'width',
+  'height',
+  'commentCount',
+  'tagCount',
+  'size',
+  'duration',
+]);
+
+export type ImageSortField = z.infer<typeof ImageSortField>;
+
 // Multi image request/response types
 const ImageSearchSchema = BaseSearchOptions.extend({
+  sf: z.optional(ImageSortField),
   // Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request.
   // This is primarily useful for unauthenticated API access.
   filterId: z.optional(z.number().int()),
-  // The current sort direction
-  sd: z.optional(z.enum(['asc', 'desc'])),
-  // The current sort field, if the request is a search request.
-  sf: z.optional(z.string()),
 });
 
 export type ImageSearchOptions = z.input<typeof ImageSearchSchema>;

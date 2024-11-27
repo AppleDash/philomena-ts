@@ -8,7 +8,7 @@ import {
   PostSearchOptions,
   searchPosts,
 } from '../forums';
-import { genericStreaming } from './common';
+import { paginatedStreaming } from './common';
 
 /**
  * A Generator wrapper around {@link getForums}.
@@ -16,13 +16,13 @@ import { genericStreaming } from './common';
  * @param baseUrl Base API URL.
  * @param limit Soft maximum number of forums to return.
  * @returns A Generator of Forums returned by the query.
- * @see genericStreaming for implementation details.
+ * @see paginatedStreaming for implementation details.
  */
 export async function* streamingGetForums(
   baseUrl: string,
   limit?: number,
 ): AsyncGenerator<Forum> {
-  yield* genericStreaming(baseUrl, getForums, 'forums', undefined, limit);
+  yield* paginatedStreaming(baseUrl, getForums, 'forums', undefined, limit);
 }
 
 /**
@@ -31,7 +31,7 @@ export async function* streamingGetForums(
  * @param baseUrl Base API URL.
  * @param limit Soft maximum number of topics to return.
  * @returns A Generator of Topics returned by the query.
- * @see genericStreaming for implementation details.
+ * @see paginatedStreaming for implementation details.
  */
 export async function* streamingGetForumTopics(
   baseUrl: string,
@@ -42,7 +42,7 @@ export async function* streamingGetForumTopics(
   const getMore = (baseUrl: string, options: TopicListOptions) =>
     getForumTopics(baseUrl, shortName, options);
 
-  yield* genericStreaming(baseUrl, getMore, 'topics', options, limit);
+  yield* paginatedStreaming(baseUrl, getMore, 'topics', options, limit);
 }
 
 /**
@@ -51,7 +51,7 @@ export async function* streamingGetForumTopics(
  * @param baseUrl Base API URL.
  * @param limit Soft maximum number of posts to return.
  * @returns A Generator of Posts returned by the query.
- * @see genericStreaming for implementation details.
+ * @see paginatedStreaming for implementation details.
  */
 export async function* streamingGetForumTopicPosts(
   baseUrl: string,
@@ -63,7 +63,7 @@ export async function* streamingGetForumTopicPosts(
   const getMore = (baseUrl: string, options: PostListOptions) =>
     getForumTopicPosts(baseUrl, shortName, topicSlug, options);
 
-  yield* genericStreaming(baseUrl, getMore, 'posts', options, limit);
+  yield* paginatedStreaming(baseUrl, getMore, 'posts', options, limit);
 }
 
 /**
@@ -72,12 +72,12 @@ export async function* streamingGetForumTopicPosts(
  * @param baseUrl Base API URL.
  * @param limit Soft maximum number of posts to return.
  * @returns A Generator of Ppsts returned by the query.
- * @see genericStreaming for implementation details.
+ * @see paginatedStreaming for implementation details.
  */
 export async function* streamingSearchPosts(
   baseUrl: string,
   options?: PostSearchOptions,
   limit?: number,
 ): AsyncGenerator<Post> {
-  yield* genericStreaming(baseUrl, searchPosts, 'posts', options, limit);
+  yield* paginatedStreaming(baseUrl, searchPosts, 'posts', options, limit);
 }

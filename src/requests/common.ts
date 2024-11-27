@@ -6,8 +6,15 @@ function toSearchParams(dict: Record<string, unknown>) {
   const params = new URLSearchParams();
 
   for (const key in dict) {
-    params.append(snakeCase(key), String(dict[key]));
+    // Special case because the sort field enum is in camel-case on our end.
+    if (key === 'sf') {
+      params.append(snakeCase(key), snakeCase(String(dict[key])));
+    } else {
+      params.append(snakeCase(key), String(dict[key]));
+    }
   }
+
+  console.log(params);
 
   return params;
 }
@@ -23,23 +30,42 @@ export const PaginatedOptions = z.object({
 });
 export type PaginatedOptions = z.infer<typeof PaginatedOptions>;
 
-/** Request options that include a query as well as everything from PaginatedOptions. */
+export const SortDirection = z.enum(['asc', 'desc']);
+export type SortDirection = z.infer<typeof SortDirection>;
+
+/**
+ * Request options that include a query as well as everything from PaginatedOptions.
+ * Note that the sort field ({@code sf}) is defined in the schemas that extend this, due to needing
+ * to be of a different type per request type.
+ */
 export const BaseSearchOptions = PaginatedOptions.extend({
   // The current search query.
   q: z.optional(z.string()),
+  // The current sort direction
+  sd: z.optional(SortDirection)
 });
+export type BaseSearchOptions = z.infer<typeof BaseSearchOptions>;
 
 /** Base response schema for a paginated collection. */
 export const PaginatedCollection = z.object({
   total: z.number().int(),
 });
 
+export type IndexableBy<Key extends string> = {
+  [K in Key]: unknown;
+};
+
 // The type parameters here are not used in the normal inheritance structure of
 // this API, but they are used in the streaming API for better type safety.
-export type PaginatedCollection<Key extends string, Value> = z.infer<
-  typeof PaginatedCollection
-> & {
-  [K in Key]: Array<Value>;
+export type PaginatedCollection<
+  /** The key which is used to get the actual elements of the collection; eg: 'images' */
+  Key extends string,
+  /** Keys which must exist on all of the values in the collection. */
+  ValueKey extends string,
+  /** Type of the values in the collection. */
+  Value = IndexableBy<ValueKey>,
+> = z.infer<typeof PaginatedCollection> & {
+  [K in Key]: Value[];
 };
 
 /**

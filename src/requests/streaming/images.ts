@@ -1,6 +1,6 @@
 import { Image } from '../../schemas/image';
 import { ImageSearchOptions, searchImages } from '../images';
-import { genericStreaming } from './common';
+import { cursorStreaming } from './common';
 
 /**
  * A Generator wrapper around {@link searchImages}.
@@ -16,5 +16,13 @@ export async function* streamingSearchImages(
   options: ImageSearchOptions,
   limit?: number,
 ): AsyncGenerator<Image> {
-  yield* genericStreaming(baseUrl, searchImages, 'images', options, limit);
+  yield* cursorStreaming(
+    baseUrl,
+    searchImages,
+    'images',
+    options,
+    options.sf ?? 'id',
+    options.sd ?? 'asc',
+    limit,
+  );
 }

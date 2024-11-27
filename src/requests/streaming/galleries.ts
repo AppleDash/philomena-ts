@@ -1,6 +1,6 @@
 import { Gallery } from '../../schemas/gallery';
 import { searchGalleries, GallerySearchOptions } from '../galleries';
-import { genericStreaming } from './common';
+import { paginatedStreaming } from './common';
 
 /**
  * A Generator wrapper around {@link searchGalleries}.
@@ -8,14 +8,14 @@ import { genericStreaming } from './common';
  * @param baseUrl Base API URL.
  * @param limit Soft maximum number of galleries to return.
  * @returns A Generator of Galleries returned by the query.
- * @see genericStreaming for implementation details.
+ * @see paginatedStreaming for implementation details.
  */
 export async function* streamingSearchGalleries(
   baseUrl: string,
   options?: GallerySearchOptions,
   limit?: number,
 ): AsyncGenerator<Gallery> {
-  yield* genericStreaming(
+  yield* paginatedStreaming(
     baseUrl,
     searchGalleries,
     'galleries',

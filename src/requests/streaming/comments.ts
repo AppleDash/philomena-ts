@@ -4,7 +4,7 @@ import {
   getImageComments,
   searchComments,
 } from '../comments';
-import { genericStreaming } from './common';
+import { paginatedStreaming } from './common';
 
 /**
  * A Generator wrapper around {@link getImageComments}.
@@ -12,7 +12,7 @@ import { genericStreaming } from './common';
  * @param baseUrl Base API URL.
  * @param limit Soft maximum number of comments to return.
  * @returns A Generator of Comments returned by the query.
- * @see genericStreaming for implementation details.
+ * @see paginatedStreaming for implementation details.
  */
 export async function* streamingGetImageComments(
   baseUrl: string,
@@ -23,7 +23,7 @@ export async function* streamingGetImageComments(
   const getMore = (baseUrl: string, options: CommentSearchOptions) =>
     getImageComments(baseUrl, imageId, options);
 
-  yield* genericStreaming(baseUrl, getMore, 'comments', options, limit);
+  yield* paginatedStreaming(baseUrl, getMore, 'comments', options, limit);
 }
 
 /**
@@ -39,5 +39,5 @@ export async function* streamingSearchComments(
   options?: CommentSearchOptions,
   limit?: number,
 ): AsyncGenerator<Comment> {
-  yield* genericStreaming(baseUrl, searchComments, 'comments', options, limit);
+  yield* paginatedStreaming(baseUrl, searchComments, 'comments', options, limit);
 }

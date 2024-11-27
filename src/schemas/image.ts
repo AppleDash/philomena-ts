@@ -48,8 +48,8 @@ export const Image = z.object({
   downvotes: z.number().int(),
   /** The ID of the target image, or null if none provided. This will only have a value on images which are merged into another image. */
   duplicateOf: z.nullable(z.number()),
-  /** The number of seconds the image lasts, if animated, otherwise .04. */
-  duration: z.number(),
+  /** The number of seconds the image lasts, if animated, otherwise .04. May be null for older images. */
+  duration: z.nullable(z.number()),
   /** The number of faves the image has. */
   faves: z.number().int(),
   /** The time, in UTC, the image was first seen (before any duplicate merging). */
@@ -67,7 +67,7 @@ export const Image = z.object({
   /** The MIME type of this image. */
   mimeType: ImageMimeType,
   /** The filename that the image was uploaded with. */
-  name: z.string(),
+  name: z.nullable(z.string()),
   /** The SHA512 hash of the image as it was originally uploaded. */
   origSha512Hash: z.nullable(z.string()),
   /** Whether the image has finished optimization. */
