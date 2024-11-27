@@ -40,7 +40,7 @@ export type SortDirection = z.infer<typeof SortDirection>;
  */
 export const BaseSearchOptions = PaginatedOptions.extend({
   /** The current search query. */
-  q: z.optional(z.string())
+  q: z.optional(z.string()),
 });
 export type BaseSearchOptions = z.infer<typeof BaseSearchOptions>;
 

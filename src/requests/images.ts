@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { Image } from '../schemas/image';
-import { apiRequest, BaseSearchOptions, PaginatedCollection, SortDirection } from './common';
+import {
+  apiRequest,
+  BaseSearchOptions,
+  PaginatedCollection,
+  SortDirection,
+} from './common';
 
 // Single image request/response types
 const GetImageOptions = z.object({
@@ -46,7 +51,7 @@ const ImageSearchSchema = BaseSearchOptions.extend({
   /** The sort field to use for sorting results. */
   sf: z.optional(ImageSortField),
   /** The sort direction to use for sorting results. */
-  sd: z.optional(SortDirection)
+  sd: z.optional(SortDirection),
 });
 
 export type ImageSearchOptions = z.input<typeof ImageSearchSchema>;

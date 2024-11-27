@@ -31,7 +31,7 @@ export async function* cursorStreaming<
   /** Type of the individual results in the collection. */
   TResult extends IndexableBy<TSort>,
   /** Type of the key used for sorting. */
-  TSort extends string
+  TSort extends string,
 >(
   baseUrl: string,
   getMore: (baseUrl: string, options: TOpts) => Promise<TCollection>,
@@ -67,7 +67,9 @@ export async function* cursorStreaming<
     const lastResult = resultsCollection[resultsCollection.length - 1];
 
     if (!lastResult) {
-      throw new Error('Last element of resultsCollection was null or undefined, this should never happen!');
+      throw new Error(
+        'Last element of resultsCollection was null or undefined, this should never happen!',
+      );
     }
 
     highestSortField = lastResult[sortField];

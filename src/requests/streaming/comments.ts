@@ -39,5 +39,11 @@ export async function* streamingSearchComments(
   options?: CommentSearchOptions,
   limit?: number,
 ): AsyncGenerator<Comment> {
-  yield* paginatedStreaming(baseUrl, searchComments, 'comments', options, limit);
+  yield* paginatedStreaming(
+    baseUrl,
+    searchComments,
+    'comments',
+    options,
+    limit,
+  );
 }

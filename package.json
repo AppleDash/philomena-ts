@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
+    "build": "tsc",
     "prettier": "prettier --write src/ tests/"
   },
   "directories": {
