@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Image } from '../schemas/image';
-import { apiRequest, BaseSearchOptions, PaginatedCollection } from './common';
+import { apiRequest, BaseSearchOptions, PaginatedCollection, SortDirection } from './common';
 
 // Single image request/response types
 const GetImageOptions = z.object({
@@ -38,10 +38,15 @@ export type ImageSortField = z.infer<typeof ImageSortField>;
 
 // Multi image request/response types
 const ImageSearchSchema = BaseSearchOptions.extend({
-  sf: z.optional(ImageSortField),
-  // Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request.
-  // This is primarily useful for unauthenticated API access.
+  /**
+   * Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request.
+   * This is primarily useful for unauthenticated API access.
+   */
   filterId: z.optional(z.number().int()),
+  /** The sort field to use for sorting results. */
+  sf: z.optional(ImageSortField),
+  /** The sort direction to use for sorting results. */
+  sd: z.optional(SortDirection)
 });
 
 export type ImageSearchOptions = z.input<typeof ImageSearchSchema>;

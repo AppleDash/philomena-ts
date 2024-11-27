@@ -21,11 +21,11 @@ function toSearchParams(dict: Record<string, unknown>) {
 
 /** Base request options that include an API key and pagination. */
 export const PaginatedOptions = z.object({
-  // An optional authentication token. If omitted, no user will be authenticated.
+  /** An optional authentication token. If omitted, no user will be authenticated. */
   key: z.optional(z.string()),
-  // Controls the current page of the response, if the response is paginated. Empty values default to the first page.
+  /** Controls the current page of the response, if the response is paginated. Empty values default to the first page. */
   page: z.optional(z.number().int()),
-  // Controls the number of results per page, up to a limit of 50, if the response is paginated. The default is 25.
+  /** Controls the number of results per page, up to a limit of 50, if the response is paginated. The default is 25. */
   perPage: z.optional(z.number().int().min(1).max(50)),
 });
 export type PaginatedOptions = z.infer<typeof PaginatedOptions>;
@@ -39,10 +39,8 @@ export type SortDirection = z.infer<typeof SortDirection>;
  * to be of a different type per request type.
  */
 export const BaseSearchOptions = PaginatedOptions.extend({
-  // The current search query.
-  q: z.optional(z.string()),
-  // The current sort direction
-  sd: z.optional(SortDirection)
+  /** The current search query. */
+  q: z.optional(z.string())
 });
 export type BaseSearchOptions = z.infer<typeof BaseSearchOptions>;
 
