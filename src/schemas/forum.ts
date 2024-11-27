@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const Forum = z.object({
   // The forum's name.
@@ -48,7 +48,7 @@ export const Post = z.object({
   // The creation time, in UTC, of the post.
   createdAt: z.string().datetime(),
   // The edit reason for this post.
-  editReason: z.string(),
+  editReason: z.nullable(z.string()),
   // The time, in UTC, this post was last edited at, or null if it was not edited.
   editedAt: z.nullable(z.string().datetime()),
   // The post's ID (used to identify it).

@@ -1,27 +1,22 @@
-import { z } from "zod";
-import { Tag } from "../schemas/tag";
-import { apiRequest } from "./common";
+import { z } from 'zod';
+import { Tag } from '../schemas/tag';
+import { apiRequest, BaseSearchOptions, PaginatedCollection } from './common';
 
 const SingleTag = z.object({
-  tag: Tag
+  tag: Tag,
 });
 
 // Tag search types
-const TagSearchSchema = BaseSearchSchema;
-type TagSearchOptions = z.infer<typeof TagSearchSchema>;
+const TagSearchOptions = BaseSearchOptions;
+export type TagSearchOptions = z.infer<typeof TagSearchOptions>;
 
-const TagCollection = z.object({
+const TagCollection = PaginatedCollection.extend({
   tags: z.array(Tag),
 });
+export type TagCollection = z.infer<typeof TagCollection>;
 
-export async function getTag(
-  baseUrl: string,
-  id: number
-): Promise<Tag> {
-  const response = await apiRequest(
-    `${baseUrl}/tags/${id}`,
-    SingleTag
-  );
+export async function getTag(baseUrl: string, id: number): Promise<Tag> {
+  const response = await apiRequest(`${baseUrl}/tags/${id}`, SingleTag);
 
   return response.tag;
 }
@@ -37,12 +32,12 @@ export async function getTag(
 export async function searchTags(
   baseUrl: string,
   options: TagSearchOptions,
-): Promise<Tag[]> {
+): Promise<TagCollection> {
   const response = await apiRequest(
     `${baseUrl}/search/tags`,
     TagCollection,
-    await TagSearchSchema.parseAsync(options),
+    await TagSearchOptions.parseAsync(options),
   );
 
-  return response.tags;
+  return response;
 }

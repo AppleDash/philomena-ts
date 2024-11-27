@@ -1,51 +1,54 @@
-import { z } from "zod";
-import { Forum, Topic, Post } from "../schemas/forum";
-import { apiRequest, PaginatedOptions, BaseSearchOptions, PaginatedCollection } from "./common";
+import { z } from 'zod';
+import { Forum, Topic, Post } from '../schemas/forum';
+import {
+  apiRequest,
+  PaginatedOptions,
+  BaseSearchOptions,
+  PaginatedCollection,
+} from './common';
 
 // Forum responses.
 const SingleForum = z.object({
-  forum: Forum
+  forum: Forum,
 });
 
 const ForumCollection = PaginatedCollection.extend({
-  forums: z.array(Forum)
+  forums: z.array(Forum),
 });
+export type ForumCollection = z.infer<typeof ForumCollection>;
 
 // Topic responses
 const SingleTopic = z.object({
-  topic: Topic
+  topic: Topic,
 });
 
 const TopicCollection = PaginatedCollection.extend({
-  topics: z.array(Topic)
+  topics: z.array(Topic),
 });
+export type TopicCollection = z.infer<typeof TopicCollection>;
 
 // Topic requests
 const TopicListOptions = PaginatedOptions;
-type TopicListOptions = z.infer<typeof TopicListOptions>;
+export type TopicListOptions = z.infer<typeof TopicListOptions>;
 
 // Post responses
 const PostCollection = PaginatedCollection.extend({
   posts: z.array(Post),
 });
+export type PostCollection = z.infer<typeof PostCollection>;
 
 const PostSearchOptions = BaseSearchOptions;
-type PostSearchOptions = z.infer<typeof PostSearchOptions>;
+export type PostSearchOptions = z.infer<typeof PostSearchOptions>;
 
 /**
  * Get a list of all the Forums.
  * @param baseUrl Base API URL.
  * @returns Array of all Forums.
  */
-export async function getForums(
-  baseUrl: string
-) {
-  const response = await apiRequest(
-    `${baseUrl}/forums`,
-    ForumCollection
-  );
+export async function getForums(baseUrl: string): Promise<ForumCollection> {
+  const response = await apiRequest(`${baseUrl}/forums`, ForumCollection);
 
-  return response.forums;
+  return response;
 }
 
 /**
@@ -56,11 +59,11 @@ export async function getForums(
  */
 export async function getForum(
   baseUrl: string,
-  shortName: string
-) {
+  shortName: string,
+): Promise<Forum> {
   const response = await apiRequest(
     `${baseUrl}/forums/${shortName}`,
-    SingleForum
+    SingleForum,
   );
 
   return response.forum;
@@ -76,15 +79,15 @@ export async function getForum(
 export async function getForumTopics(
   baseUrl: string,
   shortName: string,
-  options?: TopicListOptions
-) {
+  options?: TopicListOptions,
+): Promise<TopicCollection> {
   const response = await apiRequest(
     `${baseUrl}/forums/${shortName}/topics`,
     TopicCollection,
-    options
+    options,
   );
 
-  return response.topics;
+  return response;
 }
 
 /**
@@ -98,11 +101,11 @@ export async function getForumTopics(
 export async function getForumTopic(
   baseUrl: string,
   forumShortName: string,
-  topicSlug: string
-) {
+  topicSlug: string,
+): Promise<Topic> {
   const response = await apiRequest(
     `${baseUrl}/forums/${forumShortName}/topics/${topicSlug}`,
-    SingleTopic
+    SingleTopic,
   );
 
   return response.topic;
@@ -119,14 +122,14 @@ export async function getForumTopic(
 export async function getForumTopicPosts(
   baseUrl: string,
   forumShortName: string,
-  topicSlug: string
-) {
+  topicSlug: string,
+): Promise<PostCollection> {
   const response = await apiRequest(
     `${baseUrl}/forums/${forumShortName}/topics/${topicSlug}/posts`,
-    PostCollection
+    PostCollection,
   );
 
-  return response.posts;
+  return response;
 }
 
 /**
@@ -140,12 +143,12 @@ export async function getForumTopicPosts(
 export async function searchPosts(
   baseUrl: string,
   options: PostSearchOptions,
-): Promise<Post[]> {
+): Promise<PostCollection> {
   const response = await apiRequest(
     `${baseUrl}/search/posts`,
     PostCollection,
-    await PostSearchSchema.parseAsync(options),
+    await PostSearchOptions.parseAsync(options),
   );
 
-  return response.posts;
+  return response;
 }

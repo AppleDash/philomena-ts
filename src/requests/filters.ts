@@ -1,20 +1,21 @@
-import { z } from "zod";
-import { Filter } from "../schemas/filter";
-import { apiRequest } from "./common";
+import { z } from 'zod';
+import { Filter } from '../schemas/filter';
+import { apiRequest } from './common';
 
 const UserFilterOptions = z.object({
-  key: z.string()
+  key: z.string(),
 });
 
 type UserFilterOptions = z.infer<typeof UserFilterOptions>;
 
 const SingleFilter = z.object({
-  filter: Filter
+  filter: Filter,
 });
 
 const FilterCollection = z.object({
-  filters: z.array(Filter)
+  filters: z.array(Filter),
 });
+export type FilterCollection = z.infer<typeof FilterCollection>;
 
 /**
  * Get a single Filter by its ID.
@@ -23,14 +24,8 @@ const FilterCollection = z.object({
  * @param id ID of the requested filter.
  * @returns The requested Filter.
  */
-export async function getFilter(
-  baseUrl: string,
-  id: number
-) {
-  const response = await apiRequest(
-    `${baseUrl}/filters/${id}`,
-    SingleFilter
-  );
+export async function getFilter(baseUrl: string, id: number) {
+  const response = await apiRequest(`${baseUrl}/filters/${id}`, SingleFilter);
 
   return response.filter;
 }
@@ -42,12 +37,10 @@ export async function getFilter(
  * @param baseUrl Base API URL.
  * @returns Array of system Filters.
  */
-export async function getSystemFilters(
-  baseUrl: string
-) {
+export async function getSystemFilters(baseUrl: string): Promise<Filter[]> {
   const response = await apiRequest(
     `${baseUrl}/filters/system`,
-    FilterCollection
+    FilterCollection,
   );
 
   return response.filters;
@@ -63,12 +56,12 @@ export async function getSystemFilters(
  */
 export async function getUserFilters(
   baseUrl: string,
-  options: UserFilterOptions
-) {
+  options: UserFilterOptions,
+): Promise<Filter[]> {
   const response = await apiRequest(
     `${baseUrl}/filters/user`,
     FilterCollection,
-    await UserFilterOptions.parse(options)
+    await UserFilterOptions.parse(options),
   );
 
   return response.filters;

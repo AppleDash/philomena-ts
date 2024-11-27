@@ -1,0 +1,68 @@
+{
+  "total": 9,
+  "forums": [
+    {
+      "name": "Art Chat",
+      "description": "Discuss art of any form, and share techniques and tips",
+      "topic_count": 2228,
+      "short_name": "art",
+      "post_count": 81207
+    },
+    {
+      "name": "Fanfiction",
+      "description": "For stories, writing prompts, and critique",
+      "topic_count": 848,
+      "short_name": "writing",
+      "post_count": 14738
+    },
+    {
+      "name": "General Discussion",
+      "description": "This is a discussion forum for everything unrelated to the show or other forums",
+      "topic_count": 4922,
+      "short_name": "dis",
+      "post_count": 1480797
+    },
+    {
+      "name": "Generals",
+      "description": "For when you want to talk about an ongoing general topic",
+      "topic_count": 592,
+      "short_name": "generals",
+      "post_count": 1917946
+    },
+    {
+      "name": "Pony Discussion",
+      "description": "Discuss the show, characters, and theories",
+      "topic_count": 3426,
+      "short_name": "pony",
+      "post_count": 600923
+    },
+    {
+      "name": "Roleplaying",
+      "description": "Roleplaying forum, in which people play roles",
+      "topic_count": 1697,
+      "short_name": "rp",
+      "post_count": 1299073
+    },
+    {
+      "name": "Site and Policy",
+      "description": "For site discussion and policy discussion",
+      "topic_count": 2895,
+      "short_name": "meta",
+      "post_count": 196541
+    },
+    {
+      "name": "Tagging Discussion",
+      "description": "For discussion regarding site tags, including requesting aliases, implications, spoiler images, and tag descriptions.",
+      "topic_count": 4820,
+      "short_name": "tagging",
+      "post_count": 53871
+    },
+    {
+      "name": "Uploader Discussion",
+      "description": "To share uploading resources, tips, and discuss general uploading and related topics. This is not a support forum - please ask for support in \"Site and Policy\".",
+      "topic_count": 252,
+      "short_name": "uppers",
+      "post_count": 2125
+    }
+  ]
+}

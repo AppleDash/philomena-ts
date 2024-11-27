@@ -1,9 +1,9 @@
-import { z } from "zod";
-import { User } from "../schemas/user";
-import { apiRequest } from "./common";
+import { z } from 'zod';
+import { User } from '../schemas/user';
+import { apiRequest } from './common';
 
 const SingleUser = z.object({
-  user: User
+  user: User,
 });
 
 /**
@@ -12,14 +12,8 @@ const SingleUser = z.object({
  * @param id User ID to request.
  * @returns The requested User.
  */
-export async function getUser(
-  baseUrl: string,
-  id: number
-): Promise<User> {
-  const response = await apiRequest(
-    `${baseUrl}/profiles/${id}`,
-    SingleUser
-  );
+export async function getUser(baseUrl: string, id: number): Promise<User> {
+  const response = await apiRequest(`${baseUrl}/profiles/${id}`, SingleUser);
 
   return response.user;
 }

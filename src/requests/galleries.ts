@@ -1,14 +1,15 @@
-import { z } from "zod";
-import { Gallery } from "../schemas/gallery";
-import { apiRequest, BaseSearchOptions } from "./common";
+import { z } from 'zod';
+import { Gallery } from '../schemas/gallery';
+import { apiRequest, BaseSearchOptions, PaginatedCollection } from './common';
 
 // Gallery search types
-const GalleryCollection = z.object({
+const GalleryCollection = PaginatedCollection.extend({
   galleries: z.array(Gallery),
 });
+export type GalleryCollection = z.infer<typeof GalleryCollection>;
 
 const GallerySearchSchema = BaseSearchOptions;
-type GallerySearchOptions = z.infer<typeof GallerySearchSchema>;
+export type GallerySearchOptions = z.infer<typeof GallerySearchSchema>;
 
 /**
  * Executes the gallery search query defined by the {@code options}, and
@@ -21,12 +22,12 @@ type GallerySearchOptions = z.infer<typeof GallerySearchSchema>;
 export async function searchGalleries(
   baseUrl: string,
   options: GallerySearchOptions,
-): Promise<Gallery[]> {
+): Promise<GalleryCollection> {
   const response = await apiRequest(
     `${baseUrl}/search/galleries`,
     GalleryCollection,
     await GallerySearchSchema.parseAsync(options),
   );
 
-  return response.galleries;
+  return response;
 }

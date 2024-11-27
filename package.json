@@ -4,14 +4,22 @@
   "description": "",
   "main": "src/main.ts",
   "scripts": {
-    "prettier": "prettier src/ --write"
+    "test": "jest",
+    "prettier": "prettier --write src/ tests/"
+  },
+  "directories": {
+    "test": "tests"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.13",
+    "jest": "^29.7.0",
+    "nock": "14.0.0-beta.18",
     "prettier": "3.4.1",
+    "ts-jest": "^29.2.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   },

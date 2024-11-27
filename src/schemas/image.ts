@@ -1,14 +1,14 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const ImageMimeType = z.enum([
-  "image/gif",
-  "image/jpeg",
-  "image/png",
-  "image/svg+xml",
-  "video/webm",
+  'image/gif',
+  'image/jpeg',
+  'image/png',
+  'image/svg+xml',
+  'video/webm',
 ]);
 
-const ImageFormat = z.enum(["gif", "jpg", "jpeg", "png", "svg", "webm"]);
+const ImageFormat = z.enum(['gif', 'jpg', 'jpeg', 'png', 'svg', 'webm']);
 
 const ImageIntensities = z.object({
   nw: z.number(),
@@ -106,26 +106,3 @@ export const Image = z.object({
 });
 
 export type Image = z.infer<typeof Image>;
-
-export const Comment = z.object({
-  // The comment's author.
-  author: z.string(),
-  // The URL of the author's avatar. May be a link to the CDN path, or a data: URI.
-  avatar: z.string().url(),
-  // The comment text.
-  body: z.string(),
-  // The creation time, in UTC, of the comment.
-  createdAt: z.string().datetime(),
-  // The edit reason for this comment, or null if none provided.
-  editReason: z.nullable(z.string()),
-  // The comment's ID.
-  id: z.number().int(),
-  // The ID of the image the comment belongs to.
-  imageId: z.number().int(),
-  // The time, in UTC, the comment was last updated at.
-  updatedAt: z.string().datetime(),
-  // The ID of the user the comment belongs to, if any.
-  userId: z.nullable(z.string()),
-});
-
-export type Comment = z.infer<typeof Comment>;

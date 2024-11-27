@@ -1,0 +1,15 @@
+[
+  {
+    "id": 56027,
+    "name": "Everything",
+    "public": false,
+    "system": true,
+    "description": "This filter won't filter anything out at all - that means NSFW content!",
+    "user_id": null,
+    "hidden_tag_ids": [],
+    "spoilered_tag_ids": [],
+    "user_count": 80438,
+    "hidden_complex": null,
+    "spoilered_complex": null
+  }
+]

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const Filter = z.object({
   // The ID of the filter.
@@ -18,11 +18,11 @@ export const Filter = z.object({
   // A list of tag IDs (as integers) that this filter will spoil.
   spoileredTagIds: z.array(z.number().int()),
   // The complex spoiled filter.
-  spoileredComplex: z.string(),
+  spoileredComplex: z.nullable(z.string()),
   // A list of tag IDs (as integers) that this filter will hide.
   hiddenTagIds: z.array(z.number().int()),
   // The complex hidden filter.
-  hiddenComplex: z.string(),
+  hiddenComplex: z.nullable(z.string()),
 });
 
 export type Filter = z.infer<typeof Filter>;

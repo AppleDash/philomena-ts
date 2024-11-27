@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const UserLink = z.object({
   // The ID of the user who owns this link.
@@ -21,7 +21,7 @@ export const Award = z.object({
   // The ID of the badge this award is derived from.
   id: z.number().int(),
   // The label of this award.
-  label: z.string(),
+  label: z.nullable(z.string()),
   // The time, in UTC, when this award was given.
   awardedOn: z.string().datetime(),
 });

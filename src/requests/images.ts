@@ -1,13 +1,13 @@
-import { z } from "zod";
-import { Image } from "../schemas/image";
-import { apiRequest, BaseSearchOptions } from "./common";
+import { z } from 'zod';
+import { Image } from '../schemas/image';
+import { apiRequest, BaseSearchOptions, PaginatedCollection } from './common';
 
 // Single image request/response types
 const GetImageOptions = z.object({
   key: z.optional(z.string()),
   filterId: z.optional(z.string()),
 });
-type GetImageOptions = z.infer<typeof GetImageOptions>;
+export type GetImageOptions = z.infer<typeof GetImageOptions>;
 
 const SingleImage = z.object({
   image: Image,
@@ -19,16 +19,17 @@ const ImageSearchSchema = BaseSearchOptions.extend({
   // This is primarily useful for unauthenticated API access.
   filterId: z.optional(z.number().int()),
   // The current sort direction
-  sd: z.optional(z.enum(["asc", "desc"])),
+  sd: z.optional(z.enum(['asc', 'desc'])),
   // The current sort field, if the request is a search request.
   sf: z.optional(z.string()),
 });
 
-type ImageSearchOptions = z.input<typeof ImageSearchSchema>;
+export type ImageSearchOptions = z.input<typeof ImageSearchSchema>;
 
-const ImageCollection = z.object({
+const ImageCollection = PaginatedCollection.extend({
   images: z.array(Image),
 });
+export type ImageCollection = z.infer<typeof ImageCollection>;
 
 /**
  * Get a single Image by the Image's ID.
@@ -42,11 +43,11 @@ export async function getImage(
   baseUrl: string,
   id: number,
   options?: GetImageOptions,
-) {
+): Promise<Image> {
   const response = await apiRequest(
     `${baseUrl}/images/${id}`,
     SingleImage,
-    await GetImageOptions.parseAsync(options),
+    options && (await GetImageOptions.parseAsync(options)),
   );
 
   return response.image;
@@ -58,13 +59,8 @@ export async function getImage(
  * @param baseUrl Base API URL.
  * @returns The featured Image.
  */
-export async function getFeaturedImage(
-  baseUrl: string
-) {
-  const response = await apiRequest(
-    `${baseUrl}/images/featured`,
-    SingleImage
-  );
+export async function getFeaturedImage(baseUrl: string): Promise<Image> {
+  const response = await apiRequest(`${baseUrl}/images/featured`, SingleImage);
 
   return response.image;
 }
@@ -80,12 +76,12 @@ export async function getFeaturedImage(
 export async function searchImages(
   baseUrl: string,
   options: ImageSearchOptions,
-): Promise<Image[]> {
+): Promise<ImageCollection> {
   const response = await apiRequest(
     `${baseUrl}/search/images`,
     ImageCollection,
     await ImageSearchSchema.parseAsync(options),
   );
 
-  return response.images;
+  return response;
 }

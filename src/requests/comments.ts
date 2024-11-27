@@ -1,18 +1,19 @@
-import { z } from "zod";
-import { Comment } from "../schemas/image";
-import { apiRequest, BaseSearchOptions } from "./common";
+import { z } from 'zod';
+import { Comment } from '../schemas/comment';
+import { apiRequest, BaseSearchOptions, PaginatedCollection } from './common';
 
 const SingleComment = z.object({
-  comment: Comment
+  comment: Comment,
 });
 
 // Comment search types
 const CommentSearchOptions = BaseSearchOptions;
 type CommentSearchOptions = z.infer<typeof CommentSearchOptions>;
 
-const CommentCollection = z.object({
+const CommentCollection = PaginatedCollection.extend({
   comments: z.array(Comment),
 });
+export type CommentCollection = z.infer<typeof CommentCollection>;
 
 /**
  * Get a single Comment by its ID.
@@ -23,12 +24,9 @@ const CommentCollection = z.object({
  */
 export async function getComment(
   baseUrl: string,
-  id: number
+  id: number,
 ): Promise<Comment> {
-  const response = await apiRequest(
-    `${baseUrl}/comments/${id}`,
-    SingleComment
-  );
+  const response = await apiRequest(`${baseUrl}/comments/${id}`, SingleComment);
 
   return response.comment;
 }
@@ -44,14 +42,14 @@ export async function getComment(
 export async function searchComments(
   baseUrl: string,
   options: CommentSearchOptions,
-): Promise<Comment[]> {
+): Promise<CommentCollection> {
   const response = await apiRequest(
     `${baseUrl}/search/comments`,
     CommentCollection,
-    await CommentSearchSchema.parseAsync(options),
+    await CommentSearchOptions.parseAsync(options),
   );
 
-  return response.comments;
+  return response;
 }
 
 /**
@@ -65,23 +63,20 @@ export async function searchComments(
 export async function getImageComments(
   baseUrl: string,
   imageId: number,
-  options?: CommentSearchOptions
-): Promise<Comment[]> {
+  options?: CommentSearchOptions,
+): Promise<CommentCollection> {
   let optionsWithSearch;
 
   // If they provided a query already, add the image ID to it, otherwise just set the query to the image ID.
   if (options) {
     if (options.q) {
-      optionsWithSearch = {...options, q: `image_id:${imageId},${options.q}`};
+      optionsWithSearch = { ...options, q: `image_id:${imageId},${options.q}` };
     } else {
-      optionsWithSearch = {...options, q: `image_id:${imageId}`};
+      optionsWithSearch = { ...options, q: `image_id:${imageId}` };
     }
   } else {
     optionsWithSearch = { q: `image_id:${imageId}` };
   }
 
-  return await searchComments(
-    baseUrl,
-    optionsWithSearch
-  );
+  return await searchComments(baseUrl, optionsWithSearch);
 }

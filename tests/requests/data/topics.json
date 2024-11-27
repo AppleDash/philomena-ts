@@ -1,0 +1,27 @@
+{
+  "total": 2,
+  "topics": [
+    {
+      "sticky": true,
+      "title": "[SFW] Artist's Group Chat",
+      "author": "40kponyguy",
+      "locked": false,
+      "slug": "artists-group-chat",
+      "user_id": 308422,
+      "post_count": 14913,
+      "last_replied_to_at": "2024-11-26T23:43:49Z",
+      "view_count": 338963
+    },
+    {
+      "sticky": true,
+      "title": "Featured Image",
+      "author": "The Frowning Pony",
+      "locked": false,
+      "slug": "featured-image",
+      "user_id": 258835,
+      "post_count": 3352,
+      "last_replied_to_at": "2024-11-26T15:04:13Z",
+      "view_count": 254357
+    }
+  ]
+}

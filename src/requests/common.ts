@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { camelCase, snakeCase } from "lodash";
-import deepMapKeys from "deep-map-keys";
+import { z } from 'zod';
+import { camelCase, snakeCase } from 'lodash';
+import deepMapKeys from 'deep-map-keys';
 
 function toSearchParams(dict: Record<string, unknown>) {
   const params = new URLSearchParams();
@@ -30,8 +30,9 @@ export const BaseSearchOptions = PaginatedOptions.extend({
 
 /** Base response schema for a paginated collection. */
 export const PaginatedCollection = z.object({
-  total: z.number().int()
+  total: z.number().int(),
 });
+export type PaginatedCollection = z.infer<typeof PaginatedCollection>;
 
 /**
  * Make a request to the Philomena API endpoint at the given URL.
