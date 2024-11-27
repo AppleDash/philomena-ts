@@ -8,8 +8,7 @@ export const DERPIBOORU_API_URL = 'https://derpibooru.org/api/v1/json';
 export const MOCK_API_KEY = 'not a real API key';
 
 type GenericPaginatedCollection<Key extends string> = PaginatedCollection<
-  Key,
-  unknown
+  Key, string
 >;
 
 /**
