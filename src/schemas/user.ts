@@ -1,59 +1,68 @@
 import { z } from 'zod';
 
+/**
+ * A link between a User and a Tag.
+ */
 export const UserLink = z.object({
-  // The ID of the user who owns this link.
+  /** The ID of the user who owns this link. */
   userId: z.number().int(),
-  // The creation time, in UTC, of this link.
+  /** The creation time, in UTC, of this link. */
   createdAt: z.string().datetime(),
-  // The state of this link.
+  /** The state of this link. */
   state: z.string(),
-  // The ID of an associated tag for this link. null if no tag linked.
+  /** The ID of an associated tag for this link. null if no tag linked. */
   tagId: z.nullable(z.number().int()),
 });
 
 export type UserLink = z.infer<typeof UserLink>;
 
+/**
+ * An Award of a badge to a User.
+ */
 export const Award = z.object({
-  // The URL of this award.
+  /** The URL of this award. */
   imageUrl: z.string().url(),
-  // The title of this award.
+  /** The title of this award. */
   title: z.string(),
-  // The ID of the badge this award is derived from.
+  /** The ID of the badge this award is derived from. */
   id: z.number().int(),
-  // The label of this award.
+  /** The label of this award. */
   label: z.nullable(z.string()),
-  // The time, in UTC, when this award was given.
+  /** The time, in UTC, when this award was given. */
   awardedOn: z.string().datetime(),
 });
 
 export type Award = z.infer<typeof Award>;
 
+/**
+ * A registered User on the site.
+ */
 export const User = z.object({
-  // The ID of the user.
+  /** The ID of the user. */
   id: z.number().int(),
-  // The name of the user.
+  /** The name of the user. */
   name: z.string(),
-  // The slug of the user.
+  /** The slug of the user. */
   slug: z.string(),
-  // The role of the user.
+  /** The role of the user. */
   role: z.string(),
-  // The description (bio) of the user.
+  /** The description (bio) of the user. */
   description: z.string(),
-  // The URL of the user's thumbnail. null if the avatar is not set.
+  /** The URL of the user's thumbnail. null if the avatar is not set. */
   avatarUrl: z.nullable(z.string().url()),
-  // The creation time, in UTC, of the user.
+  /** The creation time, in UTC, of the user. */
   createdAt: z.string().datetime(),
-  // The comment count of the user.
+  /** The comment count of the user. */
   commentsCount: z.number().int(),
-  // The upload count of the user.
+  /** The upload count of the user. */
   uploadsCount: z.number().int(),
-  // The forum posts count of the user.
+  /** The forum posts count of the user. */
   postsCount: z.number().int(),
-  // The forum topics count of the user.
+  /** The forum topics count of the user. */
   topicsCount: z.number().int(),
-  // The links the user has registered.
+  /** The links the user has registered. */
   links: z.array(UserLink),
-  // The awards/badges of the user.
+  /** The awards/badges of the user. */
   awards: z.array(Award),
 });
 
