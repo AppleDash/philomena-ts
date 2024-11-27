@@ -26,7 +26,7 @@ mockedApiTest(
   },
 );
 
-mockedPaginatedApiTest(
+mockedPaginatedApiTest<'images'>(
   `${DERPIBOORU_API_URL}/search/images?q=*`,
   mockImageData,
   async () => {

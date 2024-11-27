@@ -11,7 +11,7 @@ mockedApiTest(
   },
 );
 
-mockedPaginatedApiTest(
+mockedPaginatedApiTest<'tags'>(
   `${DERPIBOORU_API_URL}/search/tags?q=analyzed_name:wing`,
   mockTagData,
   async () => {

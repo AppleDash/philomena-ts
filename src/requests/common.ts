@@ -21,6 +21,7 @@ export const PaginatedOptions = z.object({
   // Controls the number of results per page, up to a limit of 50, if the response is paginated. The default is 25.
   perPage: z.optional(z.number().int().min(1).max(50)),
 });
+export type PaginatedOptions = z.infer<typeof PaginatedOptions>;
 
 /** Request options that include a query as well as everything from PaginatedOptions. */
 export const BaseSearchOptions = PaginatedOptions.extend({
@@ -32,7 +33,14 @@ export const BaseSearchOptions = PaginatedOptions.extend({
 export const PaginatedCollection = z.object({
   total: z.number().int(),
 });
-export type PaginatedCollection = z.infer<typeof PaginatedCollection>;
+
+// The type parameters here are not used in the normal inheritance structure of
+// this API, but they are used in the streaming API for better type safety.
+export type PaginatedCollection<Key extends string, Value> = z.infer<
+  typeof PaginatedCollection
+> & {
+  [K in Key]: Array<Value>;
+};
 
 /**
  * Make a request to the Philomena API endpoint at the given URL.

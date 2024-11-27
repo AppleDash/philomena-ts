@@ -37,6 +37,9 @@ const PostCollection = PaginatedCollection.extend({
 });
 export type PostCollection = z.infer<typeof PostCollection>;
 
+const PostListOptions = PaginatedOptions;
+export type PostListOptions = z.infer<typeof PostListOptions>;
+
 const PostSearchOptions = BaseSearchOptions;
 export type PostSearchOptions = z.infer<typeof PostSearchOptions>;
 
@@ -123,10 +126,12 @@ export async function getForumTopicPosts(
   baseUrl: string,
   forumShortName: string,
   topicSlug: string,
+  options?: PostListOptions,
 ): Promise<PostCollection> {
   const response = await apiRequest(
     `${baseUrl}/forums/${forumShortName}/topics/${topicSlug}/posts`,
     PostCollection,
+    options,
   );
 
   return response;

@@ -4,7 +4,7 @@ import { DERPIBOORU_API_URL } from './helper';
 import mockGalleryData from './data/galleries.json';
 import { searchGalleries } from '../../src/requests/galleries';
 
-mockedPaginatedApiTest(
+mockedPaginatedApiTest<'galleries'>(
   `${DERPIBOORU_API_URL}/search/galleries?q=title:safe*`,
   mockGalleryData,
   async () => {

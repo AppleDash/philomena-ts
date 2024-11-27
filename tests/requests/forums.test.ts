@@ -14,7 +14,7 @@ import mockForumData from './data/forums.json';
 import mockTopicData from './data/topics.json';
 import mockPostData from './data/posts.json';
 
-mockedPaginatedApiTest(
+mockedPaginatedApiTest<'forums'>(
   `${DERPIBOORU_API_URL}/forums`,
   mockForumData,
   async () => {
@@ -30,7 +30,7 @@ mockedApiTest(
   },
 );
 
-mockedPaginatedApiTest(
+mockedPaginatedApiTest<'topics'>(
   `${DERPIBOORU_API_URL}/forums/art/topics`,
   mockTopicData,
   async () => {
@@ -46,7 +46,7 @@ mockedApiTest(
   },
 );
 
-mockedPaginatedApiTest(
+mockedPaginatedApiTest<'posts'>(
   `${DERPIBOORU_API_URL}/forums/art/topics/artists-group-chat/posts`,
   mockPostData,
   async () => {

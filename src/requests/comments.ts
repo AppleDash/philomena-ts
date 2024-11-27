@@ -8,7 +8,7 @@ const SingleComment = z.object({
 
 // Comment search types
 const CommentSearchOptions = BaseSearchOptions;
-type CommentSearchOptions = z.infer<typeof CommentSearchOptions>;
+export type CommentSearchOptions = z.infer<typeof CommentSearchOptions>;
 
 const CommentCollection = PaginatedCollection.extend({
   comments: z.array(Comment),
