@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { Tag } from '../schemas/tag';
-import { apiRequest, BaseSearchOptions, PaginatedCollection } from './common';
+import {
+  apiRequest,
+  BaseSearchOptions,
+  PaginatedCollection,
+} from './common';
 
 const SingleTag = z.object({
   tag: Tag,

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { camelCase, snakeCase } from 'lodash';
+import { camel, snake } from 'radash';
 import deepMapKeys from 'deep-map-keys';
 
 function toSearchParams(dict: Record<string, unknown>) {
@@ -8,9 +8,9 @@ function toSearchParams(dict: Record<string, unknown>) {
   for (const key in dict) {
     // Special case because the sort field enum is in camel-case on our end.
     if (key === 'sf') {
-      params.append(snakeCase(key), snakeCase(String(dict[key])));
+      params.append(camel(key), snake(String(dict[key])));
     } else {
-      params.append(snakeCase(key), String(dict[key]));
+      params.append(snake(key), String(dict[key]));
     }
   }
 
@@ -93,7 +93,7 @@ export async function apiRequest<T>(
   // Transform the snake-case keys returned by the API to the camel-case keys used in our data types.
   const transformer = z
     .record(z.string(), z.unknown())
-    .transform((v) => deepMapKeys(v, camelCase))
+    .transform((v) => deepMapKeys(v, camel))
     .pipe(schema);
 
   return await transformer.parseAsync(data);

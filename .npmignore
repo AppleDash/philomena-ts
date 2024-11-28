@@ -1,0 +1,6 @@
+/tests/
+/examples
+/jest.config.js
+/.prettierrc
+/.vscode
+/.github

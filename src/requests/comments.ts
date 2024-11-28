@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { Comment } from '../schemas/comment';
-import { apiRequest, BaseSearchOptions, PaginatedCollection } from './common';
+import {
+  apiRequest,
+  BaseSearchOptions,
+  PaginatedCollection,
+} from './common';
 
 const SingleComment = z.object({
   comment: Comment,

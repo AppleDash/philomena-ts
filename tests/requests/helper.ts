@@ -1,5 +1,5 @@
 import nock from 'nock';
-import { camelCase } from 'lodash';
+import { camel } from 'radash';
 import deepMapKeys from 'deep-map-keys';
 import { PaginatedCollection } from '../../src/requests/common';
 
@@ -43,7 +43,7 @@ export function mockedApiTest(
     test('valid request should return expected results', async () => {
       const response = await callback();
 
-      expect(response).toEqual(deepMapKeys(firstValue, camelCase));
+      expect(response).toEqual(deepMapKeys(firstValue, camel));
     });
   });
 }
@@ -61,7 +61,7 @@ export function mockedPaginatedApiTest<
     test('valid request should return expected results', async () => {
       const response = await callback();
 
-      expect(response).toEqual(deepMapKeys(expected, camelCase));
+      expect(response).toEqual(deepMapKeys(expected, camel));
     });
   });
 }

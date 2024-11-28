@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { Gallery } from '../schemas/gallery';
-import { apiRequest, BaseSearchOptions, PaginatedCollection } from './common';
+import {
+  apiRequest,
+  BaseSearchOptions,
+  PaginatedCollection,
+} from './common';
 
 // Gallery search types
 const GalleryCollection = PaginatedCollection.extend({

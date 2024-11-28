@@ -1,4 +1,4 @@
-import { snakeCase } from 'lodash';
+import { snake } from 'radash';
 import {
   BaseSearchOptions,
   IndexableBy,
@@ -50,8 +50,8 @@ export async function* cursorStreaming<
 
     if (highestSortField) {
       const query = isAscending
-        ? `${snakeCase(sortField)}.gt:${highestSortField}`
-        : `${snakeCase(sortField)}.lt:${highestSortField}`;
+        ? `${snake(sortField)}.gt:${highestSortField}`
+        : `${snake(sortField)}.lt:${highestSortField}`;
       const realQuery = options.q ? `${options.q},${query}` : query;
 
       realOptions = { ...options, q: realQuery };
