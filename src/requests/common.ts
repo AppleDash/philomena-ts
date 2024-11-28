@@ -14,8 +14,6 @@ function toSearchParams(dict: Record<string, unknown>) {
     }
   }
 
-  console.log(params);
-
   return params;
 }
 

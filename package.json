@@ -13,9 +13,9 @@
       "types": "./dist/requests/index.d.ts",
       "default": "./dist/requests/index.js"
     },
-    "./streaming": {
-      "types": "./dist/streaming/index.d.ts",
-      "default": "./dist/streaming/index.js"
+    "./requests/streaming": {
+      "types": "./dist/requests/streaming/index.d.ts",
+      "default": "./dist/requests/streaming/index.js"
     },
     "./schemas": {
       "types": "./dist/schemas/index.d.ts",
