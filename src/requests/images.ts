@@ -4,6 +4,7 @@ import {
   apiRequest,
   BaseSearchOptions,
   PaginatedCollection,
+  PhilomenaApiOptions,
   SortDirection,
 } from './common';
 
@@ -64,18 +65,18 @@ export type ImageCollection = z.infer<typeof ImageCollection>;
 /**
  * Get a single Image by the Image's ID.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param id Image ID we are requesting.
  * @param options GetImageOptions representing additional options for the query.
  * @returns The requested Image.
  */
 export async function getImage(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   id: number,
   options?: GetImageOptions,
 ): Promise<Image> {
   const response = await apiRequest(
-    `${baseUrl}/images/${id}`,
+    `${apiOptions.url}/images/${id}`,
     SingleImage,
     options && (await GetImageOptions.parseAsync(options)),
   );
@@ -86,11 +87,16 @@ export async function getImage(
 /**
  * Get the current featured image.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @returns The featured Image.
  */
-export async function getFeaturedImage(baseUrl: string): Promise<Image> {
-  const response = await apiRequest(`${baseUrl}/images/featured`, SingleImage);
+export async function getFeaturedImage(
+  apiOptions: PhilomenaApiOptions,
+): Promise<Image> {
+  const response = await apiRequest(
+    `${apiOptions.url}/images/featured`,
+    SingleImage,
+  );
 
   return response.image;
 }
@@ -99,16 +105,16 @@ export async function getFeaturedImage(baseUrl: string): Promise<Image> {
  * Executes the image search query defined by the {@code options}, and
  * returns the results.
  *
- * @param baseUrl Base API url.
+ * @param apiOptions API options
  * @param options ImageSearchOptions describing the search options.
  * @returns Array of search results.
  */
 export async function searchImages(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   options: ImageSearchOptions,
 ): Promise<ImageCollection> {
   const response = await apiRequest(
-    `${baseUrl}/search/images`,
+    `${apiOptions.url}/search/images`,
     ImageCollection,
     await ImageSearchSchema.parseAsync(options),
   );

@@ -4,43 +4,46 @@ import {
   getImageComments,
   searchComments,
 } from '../comments';
+import { PhilomenaApiOptions } from '../common';
 import { paginatedStreaming } from './common';
 
 /**
  * A Generator wrapper around {@link getImageComments}.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param limit Soft maximum number of comments to return.
  * @returns A Generator of Comments returned by the query.
  * @see paginatedStreaming for implementation details.
  */
 export async function* streamingGetImageComments(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   imageId: number,
   options?: CommentSearchOptions,
   limit?: number,
 ): AsyncGenerator<Comment> {
-  const getMore = (baseUrl: string, options: CommentSearchOptions) =>
-    getImageComments(baseUrl, imageId, options);
+  const getMore = (
+    apiOptions: PhilomenaApiOptions,
+    options: CommentSearchOptions,
+  ) => getImageComments(apiOptions, imageId, options);
 
-  yield* paginatedStreaming(baseUrl, getMore, 'comments', options, limit);
+  yield* paginatedStreaming(apiOptions, getMore, 'comments', options, limit);
 }
 
 /**
  * A Generator wrapper around {@link searchComments}.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param options Soft maximum number of comments to return.
  * @param limit Soft maximum number of comments to return.
  * @returns A Generator of Comments returned by the query.
  */
 export async function* streamingSearchComments(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   options?: CommentSearchOptions,
   limit?: number,
 ): AsyncGenerator<Comment> {
   yield* paginatedStreaming(
-    baseUrl,
+    apiOptions,
     searchComments,
     'comments',
     options,

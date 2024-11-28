@@ -4,6 +4,7 @@ import {
   apiRequest,
   BaseSearchOptions,
   PaginatedCollection,
+  PhilomenaApiOptions,
 } from './common';
 
 const SingleTag = z.object({
@@ -19,8 +20,11 @@ const TagCollection = PaginatedCollection.extend({
 });
 export type TagCollection = z.infer<typeof TagCollection>;
 
-export async function getTag(baseUrl: string, id: number): Promise<Tag> {
-  const response = await apiRequest(`${baseUrl}/tags/${id}`, SingleTag);
+export async function getTag(
+  apiOptions: PhilomenaApiOptions,
+  id: number,
+): Promise<Tag> {
+  const response = await apiRequest(`${apiOptions.url}/tags/${id}`, SingleTag);
 
   return response.tag;
 }
@@ -29,16 +33,16 @@ export async function getTag(baseUrl: string, id: number): Promise<Tag> {
  * Executes the tag search query defined by the {@code options}, and
  * returns the results.
  *
- * @param baseUrl Base API url.
+ * @param apiOptions API options
  * @param options TagSearchOptions describing the search options.
  * @returns Array of search results.
  */
 export async function searchTags(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   options: TagSearchOptions,
 ): Promise<TagCollection> {
   const response = await apiRequest(
-    `${baseUrl}/search/tags`,
+    `${apiOptions.url}/search/tags`,
     TagCollection,
     await TagSearchOptions.parseAsync(options),
   );

@@ -4,6 +4,7 @@ import {
   IndexableBy,
   PaginatedCollection,
   PaginatedOptions,
+  PhilomenaApiOptions,
   SortDirection,
 } from '../common';
 
@@ -13,7 +14,7 @@ import {
  * This function uses a "sort field" that is returned in each element of the yielded collection,
  * in order to more efficiently request additional results without using pagination.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param options Options passed to the {@link getMore} function.
  *                The {@code page} parameter is ignored here.
  * @param getMore Function that will be called to get each chunk of results from the API.
@@ -33,8 +34,11 @@ export async function* cursorStreaming<
   /** Type of the key used for sorting. */
   TSort extends string,
 >(
-  baseUrl: string,
-  getMore: (baseUrl: string, options: TOpts) => Promise<TCollection>,
+  apiOptions: PhilomenaApiOptions,
+  getMore: (
+    apiOptions: PhilomenaApiOptions,
+    options: TOpts,
+  ) => Promise<TCollection>,
   key: TKey,
   options: TOpts,
   sortField: TSort,
@@ -57,7 +61,7 @@ export async function* cursorStreaming<
       realOptions = { ...options, q: realQuery };
     }
 
-    const results = await getMore(baseUrl, realOptions);
+    const results = await getMore(apiOptions, realOptions);
     const resultsCollection = results[key];
 
     if (resultsCollection.length === 0) {
@@ -76,6 +80,10 @@ export async function* cursorStreaming<
 
     yield* resultsCollection;
     totalReturned += resultsCollection.length;
+
+    if (apiOptions.streamingDelay && apiOptions.streamingDelay > 0) {
+      await new Promise((r) => setTimeout(r, apiOptions.streamingDelay));
+    }
   }
 }
 
@@ -86,7 +94,7 @@ export async function* cursorStreaming<
  * {@link cursorStreaming()} should be preferred over this function when the results are searchable/sortable,
  * as it is more efficient on the server side.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param options Options passed to the {@link getMore} function.
  *                The {@code page} parameter is ignored here.
  * @param getMore Function that will be called to get each chunk of results from the API.
@@ -104,8 +112,11 @@ export async function* paginatedStreaming<
   /** Type of each element in the collection. */
   TResult,
 >(
-  baseUrl: string,
-  getMore: (baseUrl: string, options: TOpts) => Promise<TCollection>,
+  apiOptions: PhilomenaApiOptions,
+  getMore: (
+    apiOptions: PhilomenaApiOptions,
+    options: TOpts,
+  ) => Promise<TCollection>,
   key: TKey,
   options?: TOpts,
   limit?: number,
@@ -116,7 +127,7 @@ export async function* paginatedStreaming<
 
   // Keep querying results until we either hit the limit or run out of results.
   while (!limit || totalReturned < limit) {
-    const results = await getMore(baseUrl, {
+    const results = await getMore(apiOptions, {
       ...realOptions,
       page: currentPage,
     });
@@ -129,5 +140,9 @@ export async function* paginatedStreaming<
 
     currentPage++;
     totalReturned += results[key].length;
+
+    if (apiOptions.streamingDelay && apiOptions.streamingDelay > 0) {
+      await new Promise((r) => setTimeout(r, apiOptions.streamingDelay));
+    }
   }
 }

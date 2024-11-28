@@ -1,10 +1,15 @@
 import nock from 'nock';
 import { camel } from 'radash';
 import deepMapKeys from 'deep-map-keys';
-import { PaginatedCollection } from '../../src/requests/common';
+import {
+  PaginatedCollection,
+  PhilomenaApiOptions,
+} from '../../src/requests/common';
 
 /** API URL for the most popular Philomena booru, used for testing. */
-export const DERPIBOORU_API_URL = 'https://derpibooru.org/api/v1/json';
+export const DERPIBOORU_API_OPTIONS: PhilomenaApiOptions = {
+  url: 'https://derpibooru.org/api/v1/json',
+};
 export const MOCK_API_KEY = 'not a real API key';
 
 type GenericPaginatedCollection<Key extends string> = PaginatedCollection<

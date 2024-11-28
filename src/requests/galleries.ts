@@ -4,6 +4,7 @@ import {
   apiRequest,
   BaseSearchOptions,
   PaginatedCollection,
+  PhilomenaApiOptions,
 } from './common';
 
 // Gallery search types
@@ -19,16 +20,16 @@ export type GallerySearchOptions = z.infer<typeof GallerySearchSchema>;
  * Executes the gallery search query defined by the {@code options}, and
  * returns the results.
  *
- * @param baseUrl Base API url.
+ * @param apiOptions API options
  * @param options GallerySearchOptions describing the search options.
  * @returns Array of search results.
  */
 export async function searchGalleries(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   options: GallerySearchOptions,
 ): Promise<GalleryCollection> {
   const response = await apiRequest(
-    `${baseUrl}/search/galleries`,
+    `${apiOptions.url}/search/galleries`,
     GalleryCollection,
     await GallerySearchSchema.parseAsync(options),
   );

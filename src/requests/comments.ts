@@ -4,6 +4,7 @@ import {
   apiRequest,
   BaseSearchOptions,
   PaginatedCollection,
+  PhilomenaApiOptions,
 } from './common';
 
 const SingleComment = z.object({
@@ -22,15 +23,18 @@ export type CommentCollection = z.infer<typeof CommentCollection>;
 /**
  * Get a single Comment by its ID.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param id ID of the comment to request.
  * @returns The requested Comment.
  */
 export async function getComment(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   id: number,
 ): Promise<Comment> {
-  const response = await apiRequest(`${baseUrl}/comments/${id}`, SingleComment);
+  const response = await apiRequest(
+    `${apiOptions.url}/comments/${id}`,
+    SingleComment,
+  );
 
   return response.comment;
 }
@@ -39,16 +43,16 @@ export async function getComment(
  * Executes the comment search query defined by the {@code options}, and
  * returns the results.
  *
- * @param baseUrl Base API url.
+ * @param apiOptions API options
  * @param options CommentSearchOptions describing the search options.
  * @returns Array of search results.
  */
 export async function searchComments(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   options: CommentSearchOptions,
 ): Promise<CommentCollection> {
   const response = await apiRequest(
-    `${baseUrl}/search/comments`,
+    `${apiOptions.url}/search/comments`,
     CommentCollection,
     await CommentSearchOptions.parseAsync(options),
   );
@@ -59,13 +63,13 @@ export async function searchComments(
 /**
  * Retrieve the Comments for the image with the given ID.
  * Internally, this executes a Comment search with the {@code image_id} search option added to the query.
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param imageId ID of the image to retrieve comments for.
  * @param options CommentSearchOptions describing the search options. If a query is provided, the query will be merged with the {@code image_id} query.
  * @returns Array of Comments on the given image.
  */
 export async function getImageComments(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   imageId: number,
   options?: CommentSearchOptions,
 ): Promise<CommentCollection> {
@@ -82,5 +86,5 @@ export async function getImageComments(
     optionsWithSearch = { q: `image_id:${imageId}` };
   }
 
-  return await searchComments(baseUrl, optionsWithSearch);
+  return await searchComments(apiOptions, optionsWithSearch);
 }

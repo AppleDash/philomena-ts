@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Filter } from '../schemas/filter';
-import { apiRequest } from './common';
+import { apiRequest, PhilomenaApiOptions } from './common';
 
 const UserFilterOptions = z.object({
   key: z.string(),
@@ -20,12 +20,15 @@ export type FilterCollection = z.infer<typeof FilterCollection>;
 /**
  * Get a single Filter by its ID.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param id ID of the requested filter.
  * @returns The requested Filter.
  */
-export async function getFilter(baseUrl: string, id: number) {
-  const response = await apiRequest(`${baseUrl}/filters/${id}`, SingleFilter);
+export async function getFilter(apiOptions: PhilomenaApiOptions, id: number) {
+  const response = await apiRequest(
+    `${apiOptions.url}/filters/${id}`,
+    SingleFilter,
+  );
 
   return response.filter;
 }
@@ -34,12 +37,14 @@ export async function getFilter(baseUrl: string, id: number) {
  * Get a list of Filters that are flagged as {@code system} filters, and
  * as such are usable by anyone.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @returns Array of system Filters.
  */
-export async function getSystemFilters(baseUrl: string): Promise<Filter[]> {
+export async function getSystemFilters(
+  apiOptions: PhilomenaApiOptions,
+): Promise<Filter[]> {
   const response = await apiRequest(
-    `${baseUrl}/filters/system`,
+    `${apiOptions.url}/filters/system`,
     FilterCollection,
   );
 
@@ -50,16 +55,16 @@ export async function getSystemFilters(baseUrl: string): Promise<Filter[]> {
  * Get a list of Filters belonging to the currently-authenticated user.
  * An API key is required for this request.
  *
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param options UserFilterOptions representing the options for the request.
  * @returns Array of Filters belonging to the current user.
  */
 export async function getUserFilters(
-  baseUrl: string,
+  apiOptions: PhilomenaApiOptions,
   options: UserFilterOptions,
 ): Promise<Filter[]> {
   const response = await apiRequest(
-    `${baseUrl}/filters/user`,
+    `${apiOptions.url}/filters/user`,
     FilterCollection,
     await UserFilterOptions.parse(options),
   );

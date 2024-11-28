@@ -17,6 +17,13 @@ function toSearchParams(dict: Record<string, unknown>) {
   return params;
 }
 
+export type PhilomenaApiOptions = {
+  /** The URL of the root of the API, for example {@code https://example.com/api/v1/json}. */
+  url: string;
+  /** The delay, in milliseconds, to use between requests in the streaming API. Defaults to no delay if not specified. */
+  streamingDelay?: number;
+};
+
 /** Base request options that include an API key and pagination. */
 export const PaginatedOptions = z.object({
   /** An optional authentication token. If omitted, no user will be authenticated. */

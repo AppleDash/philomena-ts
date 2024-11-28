@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { User } from '../schemas/user';
-import { apiRequest } from './common';
+import { apiRequest, PhilomenaApiOptions } from './common';
 
 const SingleUser = z.object({
   user: User,
@@ -8,12 +8,18 @@ const SingleUser = z.object({
 
 /**
  * Get a single User by their ID.
- * @param baseUrl Base API URL.
+ * @param apiOptions API options
  * @param id User ID to request.
  * @returns The requested User.
  */
-export async function getUser(baseUrl: string, id: number): Promise<User> {
-  const response = await apiRequest(`${baseUrl}/profiles/${id}`, SingleUser);
+export async function getUser(
+  apiOptions: PhilomenaApiOptions,
+  id: number,
+): Promise<User> {
+  const response = await apiRequest(
+    `${apiOptions.url}/profiles/${id}`,
+    SingleUser,
+  );
 
   return response.user;
 }
