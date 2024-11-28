@@ -91,7 +91,11 @@ export async function apiRequest<T>(
     url += `?${urlParams}`;
   }
 
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    headers: {
+      'User-Agent': 'philomena-ts',
+    },
+  });
 
   const data = await response.json();
 
