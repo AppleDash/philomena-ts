@@ -1,11 +1,23 @@
 philomena-ts
 ============
 
+[![NPM version badge](https://img.shields.io/npm/v/philomena-ts)](https://www.npmjs.com/package/philomena-ts)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/AppleDash/philomena-ts/node.js.yml)
+
 A procedural TypeScript binding for the public API of the [Philomena](https://github.com/philomena-dev/philomena/) image booru.
 
 This library is relatively low-level, and is intended to be used to build small applications or more complex (eg: object-oriented) bindings that consume the Philomena API. Currently, every endpoint is implemented except for OEmbed, Image upload, and Image reverse search.
 
 [Zod](https://zod.dev/) is used for schema validation of API requests and responses, with schemas built based on the official API documentation.
+
+## Installation
+```bash
+npm i philomena-ts
+# OR
+pnpm add philomena-ts
+# OR
+yarn add philomena-ts
+```
 
 ## Examples
 Every API request function takes a `PhilomenaApiOptions` object which includes the root API endpoint URL and an optional delay to use for successive
