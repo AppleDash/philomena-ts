@@ -39,15 +39,15 @@ console.log(firstImage.viewUrl);
 ### Streaming API
 There also exists a "streaming" API, which is exported under `requests/streaming`, and provides an AsyncGenerator-based interface to requests that return pages of results.
 
-The streaming API for images attempts to reduce load on the server by means of using search queries that more efficiently look up the requested data, as opposed to pagination which always look up all the data for every page up to and including the requested page. This is a server-side limitation/consideration, rather than a fault of this library.
+The streaming API for images attempts to reduce load on the server by means of using search queries that more efficiently look up the requested data, as opposed to pagination which always looks up all the data for every page up to and including the requested page. This is a server-side limitation/consideration, rather than a fault of this library.
 
 ```ts
-import { getImage } from 'philomena-ts/requests/streaming';
+import { streamingSearchImages } from 'philomena-ts/requests/streaming';
 const API_OPTIONS = { url: 'https://example.com/api/v1/json', streamingDelay: 1000 };
 
 // Find the first 50 images with the highest aspect ratio.
 // This will make 2 API requests in the background, delayed by 1000ms as specified in the streamingDelay API option.
-for await (const image of streamingSearchImages(API_OPTIONS, { q: 'safe', sf: 'aspectRatio', sd: 'desc' }, 50)) {
+for await (const image of streamingSearchImages(API_OPTIONS, { q: 'safe', sf: 'aspectRatio', sd: 'desc', perPage: 25 }, 50)) {
     console.log(image.id, image.aspectRatio);
 }
 ```
